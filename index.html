@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sistema de Registro</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</head>
+
+<body>
+
+<h1 class="titulo-principal">Sistema de <span>Registro de Estudiantes</span></h1>
+<p class="subtitulo">Seleccione su rol para iniciar sesión</p>
+
+<div class="contenedor-login">
+
+  <div class="card">
+
+    <h2>Inicio de Sesión</h2>
+
+    <div class="botonera-rol">
+      <button id="btnRolAdmin" onclick="elegirRol('admin')">Administrador</button>
+      <button id="btnRolEstudiante" onclick="elegirRol('estudiante')">Estudiantes</button>
+    </div>
+
+    <input type="text" id="correoLogin" placeholder="Seleccione un rol" autocomplete="off">
+
+    <input type="password" id="passwordLogin" placeholder="Contraseña" onkeydown="if(event.key==='Enter')ingresar()">
+
+    <div class="botonera-login">
+      <button onclick="ingresar()">Ingresar</button>
+      <button id="btnRegistrarLogin" class="btn-oculto" onclick="registrar()">Registrar</button>
+      <button id="btnEliminarLogin" class="btn-oculto btn-peligro" onclick="eliminarUsuario()">Eliminar</button>
+    </div>
+
+    <label class="btn-archivo" onclick="return manejarAbrirArchivo(event)">
+      Conectar registros.xlsx
+      <input type="file" id="archivoUsuarios" accept=".xlsx" class="oculto" onchange="importarUsuarios(event)">
+    </label>
+
+    <p id="estadoArchivo" class="estado-archivo"></p>
+
+  </div>
+
+</div>
+
+<!-- REGISTRO NUEVO -->
+
+<div id="registroUsuario" class="card oculto">
+
+  <h2>Registro de Estudiante</h2>
+
+  <input type="text" id="nombreRegistro" placeholder="Nombre Completo">
+
+  <input type="email" id="correoRegistro" placeholder="Correo">
+
+  <input type="text" id="cedulaRegistro" placeholder="Cédula">
+
+  <input type="text" id="telefonoRegistro" placeholder="Teléfono">
+
+  <input type="text" id="direccionRegistro" placeholder="Dirección">
+
+  <div class="acciones">
+    <button onclick="guardarUsuario()">Crear Cuenta</button>
+  </div>
+
+</div>
+
+<!-- PANEL PRINCIPAL -->
+
+<div id="panel" class="card oculto">
+
+  <div class="encabezado">
+
+    <h2>
+      Bienvenido:
+      <span id="usuarioActivo"></span>
+    </h2>
+
+    <button class="btn-peligro" onclick="cerrarSesion()">Salir</button>
+
+  </div>
+
+  <hr>
+
+  <h2>Formulario de Registro</h2>
+
+  <label class="activar-formulario">
+    <input type="radio" id="activar">
+    Activar Formulario
+  </label>
+
+  <div class="grid">
+
+    <input id="cedula" placeholder="CEDULA">
+    <input id="nombre1" placeholder="NOMBRE 1">
+    <input id="nombre2" placeholder="NOMBRE 2">
+    <input id="apellido1" placeholder="APELLIDO 1">
+    <input id="apellido2" placeholder="APELLIDO 2">
+    <input id="telefono" placeholder="TELEFONO">
+    <input id="direccion" placeholder="DIRECCION">
+
+  </div>
+
+  <br>
+
+  <input id="buscarCedula" placeholder="Buscar por cédula" onkeydown="if(event.key==='Enter')consultarRegistro()">
+
+  <div class="acciones">
+
+    <button id="btnGuardar" onclick="guardarRegistro()">Guardar</button>
+
+    <button id="btnConsultar" onclick="consultarRegistro()">Consultar</button>
+
+    <button id="btnEditar" onclick="editarRegistro()">Editar</button>
+
+    <button id="btnEliminar" class="btn-peligro" onclick="eliminarRegistro()">Eliminar</button>
+
+    <button id="btnExcel" class="btn-excel" onclick="guardarExcel()">Guardar en Excel</button>
+
+    <button class="btn-excel" onclick="conectarArchivo()">Conectar archivo</button>
+
+  </div>
+
+  <div style="text-align:center">
+    <div class="contador-badge">
+      Total Registrados: <span id="contador">0</span>
+    </div>
+    <p id="estadoArchivoPanel" class="estado-archivo"></p>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
